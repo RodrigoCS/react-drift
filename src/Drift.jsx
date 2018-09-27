@@ -1,20 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 
 class Drift extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.addMainScript = this.addMainScript.bind(this);
-    this.addIdentityVariables = this.addIdentityVariables.bind(this);
-    this.insertScript = this.insertScript.bind(this);
+    this.addMainScript = this.addMainScript.bind(this)
+    this.addIdentityVariables = this.addIdentityVariables.bind(this)
+    this.insertScript = this.insertScript.bind(this)
   }
 
   insertScript(scriptText) {
-    const script = document.createElement("script");
-    script.innerText = scriptText;
-    script.async = true;
-    document.body.appendChild(script);
+    const script = document.createElement('script')
+    script.innerText = scriptText
+    script.async = true
+    document.body.appendChild(script)
   }
 
   addMainScript() {
@@ -39,9 +39,9 @@ class Drift extends React.Component {
         }
       }();
       drift.SNIPPET_VERSION = '0.3.1';
-      drift.load('${this.props.appId}');`;
+      drift.load('${this.props.appId}');`
 
-    this.insertScript(scriptText);
+    this.insertScript(scriptText)
   }
 
   addIdentityVariables() {
@@ -49,26 +49,28 @@ class Drift extends React.Component {
       let scriptText = `
         var t = window.driftt = window.drift = window.driftt || [];
         drift.identify('${this.props.userId}', '${this.props.attributes}')
-      `;
-      this.insertScript(scriptText);
+      `
+      this.insertScript(scriptText)
     }
   }
 
   componentDidMount() {
-    this.addMainScript();
-    this.addIdentityVariables();
+    if (typeof window !== 'undefined') {
+      this.addMainScript()
+      this.addIdentityVariables()
+    }
   }
 
   render() {
-    return "";
+    return ''
   }
 }
 
 const propTypes = {
   appId: PropTypes.string.isRequired,
   attributes: PropTypes.object
-};
+}
 
-Drift.propTypes = propTypes;
+Drift.propTypes = propTypes
 
-export default Drift;
+export default Drift
